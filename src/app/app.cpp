@@ -1,48 +1,55 @@
 #include "app.hpp"
 
-void App::init_variables() //Initalization
-    {
-        this->window = nullptr;
-
-    }
-
-void App::init_window(int width, int height){
-     this->video_mode.height =width;
-    this->video_mode.width = height ; 
-    //this->videoMode.getDesktopMode();
-
-    this->window = new sf::RenderWindow(this->video_mode, "TEST", sf::Style::Titlebar | sf::Style::Close);
-    
+App::App(i32 width, i32 height) {
+    init_window(width,  height);
 }
-App::App(int width, int height){
-    this->init_variables();
-    this->init_window( width,  height);
 
-}
-App::~App(){
+App::~App() {
     delete this->window;
 }
 
-const bool App::get_window_is_open() const{
-    return this->window->isOpen();
+void App::program_loop() {
+    while(window->isOpen()) {
+        update();
+        render();
+    }
 }
-void App::poll_events(){
-      while(this->window->pollEvent(this->ev)){
-            switch (this->ev.type) {
-                case sf::Event::Closed:
-                    this->window->close();
-                    break;
-                case sf::Event::KeyPressed:
-                if(this->ev.key.code == sf::Keyboard::Escape) //konkretne klawisze
-                    this->window->close();
-            }
-        }
-}
-void App::render(){
-          this->window->clear();
 
-    this->window->display();
+void App::init_window(i32 width, i32 height) {
+    window = nullptr;
+    sf::VideoMode video_mode;
+    video_mode.height = width;
+    video_mode.width = height; 
+
+    window = new sf::RenderWindow(video_mode, "Perlin noise visualization", sf::Style::Titlebar | sf::Style::Close);
+}
+
+void App::update() {
+    poll_events();
+}
+
+void App::render() {
+    window->clear(sf::Color::Black);
+    window->display();
+}
+
+void App::poll_events(){
+    while (window->pollEvent(event)) {
+        switch (event.type) {
+            case sf::Event::Closed:
+                window->close();
+                break;
+            case sf::Event::KeyPressed:
+                handle_keyboard_events(event.key.code);
+                break;
+        }
     }
-    void App::update(){
-         this->poll_events();
+}
+
+void App::handle_keyboard_events(sf::Keyboard::Key pressed_key) {
+    switch(pressed_key) {
+        case sf::Keyboard::Escape:
+            window->close();
+            break;
     }
+}

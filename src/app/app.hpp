@@ -2,30 +2,24 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include "../utils/types.hpp"
+#include "../utils/vector2.hpp"
 
 
-class App{
+class App {
+public:
+    App(i32 width, i32 height);
+    ~App();
 
-    private:
-     int window_height;
-     int window_width;
+    void program_loop();
+private:
+    sf::RenderWindow* window;
+    sf::Event event;
 
-     //WindowThings
-     sf::RenderWindow* window;
-     sf::VideoMode video_mode;
-     sf::Event ev;
-
-    void init_variables();
-    void init_window(int width, int height);
-
-    public:
-    App(int d, int d2);
-    virtual ~App();
-
-    const bool get_window_is_open() const;
-
-    void poll_events();
+    void init_window(i32 width, i32 height);
     void update();
     void render();
+    void poll_events();
+    void handle_keyboard_events(sf::Keyboard::Key pressed_key);
 };
 
