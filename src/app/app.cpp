@@ -21,7 +21,7 @@ void App::init_window(i32 width, i32 height) {
     video_mode.height = width;
     video_mode.width = height; 
 
-    window = new sf::RenderWindow(video_mode, "Perlin noise visualization", sf::Style::Titlebar | sf::Style::Close);
+    window = new sf::RenderWindow(video_mode, "Perlin noise visualization", sf::Style::Default);
 }
 
 void App::update() {
