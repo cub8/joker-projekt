@@ -11,4 +11,6 @@
 int main(){
     App app(720, 720);
     app.program_loop();
+
+    return 0;
 }
