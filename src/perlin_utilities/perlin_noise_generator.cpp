@@ -6,7 +6,7 @@ PerlinNoiseGenerator::~PerlinNoiseGenerator() {
 }
 
 void PerlinNoiseGenerator::refill_noise_array(const u32 array_size, i32* seed) {
-    delete[] noise_array;
+    if (noise_array == nullptr) delete[] noise_array;
     noise_array = generate_noise(array_size, seed);
 }
 

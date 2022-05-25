@@ -6,24 +6,22 @@ App::App(i32 width, i32 height) {
 }
 
 App::~App() {
-    delete this->window;
-    if (perlin_noise_array != nullptr) delete[] perlin_noise_array;
+    delete[] perlin_noise_array;
 }
 
 void App::program_loop() {
-    while(window->isOpen()) {
+    while(window.isOpen()) {
         update();
         render();
     }
 }
 
 void App::init_window(i32 width, i32 height) {
-    window = nullptr;
     sf::VideoMode video_mode;
     video_mode.height = width;
     video_mode.width = height; 
 
-    window = new sf::RenderWindow(video_mode, "Perlin noise visualization", sf::Style::Default);
+    window.create(video_mode, "Perlin noise visualization", sf::Style::Default);
 }
 
 void App::update() {
@@ -31,16 +29,16 @@ void App::update() {
 }
 
 void App::render() {
-    window->clear(sf::Color::Black);
+    window.clear(sf::Color::Black);
     handle_modes_drawing();
-    window->display();
+    window.display();
 }
 
 void App::poll_events(){
-    while (window->pollEvent(event)) {
+    while (window.pollEvent(event)) {
         switch (event.type) {
             case sf::Event::Closed:
-                window->close();
+                window.close();
                 break;
             case sf::Event::KeyPressed:
                 handle_keyboard_events();
@@ -54,23 +52,19 @@ void App::poll_events(){
 void App::handle_keyboard_events() {
     switch(event.key.code) {
         case sf::Keyboard::Escape:
-            window->close();
+            window.close();
             break;
         case sf::Keyboard::Num0:
-            if (perlin_noise_array != nullptr) {
-                delete[] perlin_noise_array;
-                perlin_noise_array = nullptr;
-            }
+            delete[] perlin_noise_array;
+            perlin_noise_array = nullptr;
             mode = 0;
             bias = 0.0f;
             octaves = 0;            
             break;
         case sf::Keyboard::Num1:
             mode = 1;
-            if (perlin_noise_array != nullptr) {
-                delete[] perlin_noise_array;
-                perlin_noise_array = nullptr;
-            }
+            delete[] perlin_noise_array;
+            perlin_noise_array = nullptr;
             perlin_noise_generator.refill_noise_array(PERLIN_1D_ARRAY_SIZE);
             bias = 2.0f;
             octaves = 4;
@@ -88,10 +82,8 @@ void App::handle_keyboard_events() {
             break;
         case sf::Keyboard::Num3:
             mode = 3;
-            if (perlin_noise_array != nullptr) {
-                delete[] perlin_noise_array;
-                perlin_noise_array = nullptr;
-            }
+            delete[] perlin_noise_array;
+            perlin_noise_array = nullptr;
             bias = 2.0f;
             octaves = 4;
             // refill array
@@ -151,7 +143,7 @@ void App::handle_mode_3_keyboard_events() {
 void App::handle_modes_drawing() {
     switch(mode) {
         case 1:
-            noise_drawer.draw_noise(PERLIN_1D_ARRAY_SIZE, perlin_noise_array, *window);
+            noise_drawer.draw_noise(PERLIN_1D_ARRAY_SIZE, perlin_noise_array, window);
             break;
         case 2: break;
         case 3: break;

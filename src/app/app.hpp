@@ -13,7 +13,7 @@ public:
 
     void program_loop();
 private:
-    sf::RenderWindow* window;
+    sf::RenderWindow window;
     sf::Event event;
     f32* perlin_noise_array;
     u32 mode = 0;
