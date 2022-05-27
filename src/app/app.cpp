@@ -22,6 +22,7 @@ void App::init_window(i32 width, i32 height) {
     video_mode.width = height; 
 
     window.create(video_mode, "Perlin noise visualization", sf::Style::Default);
+    window.setFramerateLimit(30);
 }
 
 void App::update() {
@@ -123,6 +124,12 @@ void App::handle_mode_1_keyboard_events() {
         case sf::Keyboard::C:
             bias += 0.2f;
             break;
+        case sf::Keyboard::K:
+            drawing_mode_1d = 'k';
+            break;
+        case sf::Keyboard::L:
+            drawing_mode_1d = 'l';
+            break;
         default: break;
     }
     if (bias < 0.2f) bias = 0.2f;
@@ -143,7 +150,10 @@ void App::handle_mode_3_keyboard_events() {
 void App::handle_modes_drawing() {
     switch(mode) {
         case 1:
-            noise_drawer.draw_noise(PERLIN_1D_ARRAY_SIZE, perlin_noise_array, window);
+            if (drawing_mode_1d == 'k')
+                noise_drawer.draw_1d_block_noise(PERLIN_1D_ARRAY_SIZE, perlin_noise_array, window);
+            else
+                noise_drawer.draw_1d_lines_noise(PERLIN_1D_ARRAY_SIZE, perlin_noise_array, window);
             break;
         case 2: break;
         case 3: break;

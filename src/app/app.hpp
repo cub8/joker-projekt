@@ -17,6 +17,7 @@ private:
     sf::Event event;
     f32* perlin_noise_array;
     u32 mode = 0;
+    i8 drawing_mode_1d = 'k';
     PerlinNoiseGenerator perlin_noise_generator;
     NoiseDrawer noise_drawer;
     u32 octaves;
