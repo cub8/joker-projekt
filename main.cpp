@@ -10,14 +10,7 @@
 
 int main(){
     App app(720, 720);
-    
+    app.program_loop();
 
-    //Loop
-    while ((app.get_window_is_open())){
-        //Update
-       app.update();
-        //Render
-       app.render();
-    }
     return 0;
 }
